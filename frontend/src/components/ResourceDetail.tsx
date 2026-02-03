@@ -1,5 +1,3 @@
-// src/components/ResourceDetail.tsx
-
 import React from "react";
 import type { LearningResource } from "../types/learningResource";
 
