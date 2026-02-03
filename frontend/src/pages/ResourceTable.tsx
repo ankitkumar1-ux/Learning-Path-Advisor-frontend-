@@ -46,6 +46,7 @@ const ResourceTable: React.FC = () => {
       setResources(data.items);
       setTotalPages(data.totalPages);
       setTotalItems(data.totalItems);
+      setCurrentPage(data.currentPage ?? currentPage);
       setLoading(false);
     };
     getResources();
