@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import { getAIRecommendations, getErrorMessage } from "../services/api";
 import ErrorAlert from "../components/ErrorAlert";
+import ResourceDetail from "../components/ResourceDetail";
 import { useThrottle } from "../hooks/useThrottle";
 import type { AIRecommendationResponse, LearningResource } from "../types/learningResource";
 
-const ResourceCard: React.FC<{ resource: LearningResource; index: number }> = ({ resource, index }) => (
-  <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+const ResourceCard: React.FC<{
+  resource: LearningResource;
+  index: number;
+  onResourceClick: (resource: LearningResource) => void;
+}> = ({ resource, index, onResourceClick }) => (
+  <div
+    className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-indigo-300"
+    onClick={() => onResourceClick(resource)}
+    role="button"
+    tabIndex={0}
+    onKeyDown={(e) => e.key === "Enter" && onResourceClick(resource)}
+  >
     <div className="flex items-start gap-3">
       <span className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-semibold flex items-center justify-center text-sm">
         {index + 1}
       </span>
       <div className="flex-1 min-w-0">
-        <h4 className="font-semibold text-gray-900 mb-1">{resource.title}</h4>
+        <h4 className="font-semibold text-gray-900 mb-1 text-indigo-600 hover:text-indigo-800">
+          {resource.title}
+        </h4>
         <p className="text-sm text-gray-600 mb-3">{resource.description}</p>
         <div className="flex flex-wrap gap-2 items-center">
           <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium border">
@@ -42,6 +55,7 @@ const AIRecommendation: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [recommendations, setRecommendations] = useState<AIRecommendationResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [selectedResource, setSelectedResource] = useState<LearningResource | null>(null);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -104,7 +118,12 @@ const AIRecommendation: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-3">Recommended Resources</h3>
             <div className="space-y-3">
               {recommendations.resources.map((resource, index) => (
-                <ResourceCard key={resource.id} resource={resource} index={index} />
+                <ResourceCard
+                  key={resource.id}
+                  resource={resource}
+                  index={index}
+                  onResourceClick={setSelectedResource}
+                />
               ))}
             </div>
           </div>
@@ -114,6 +133,13 @@ const AIRecommendation: React.FC = () => {
             <span className="font-bold text-lg">{recommendations.totalEstimatedMinutes} minutes</span>
           </div>
         </div>
+      )}
+
+      {selectedResource && (
+        <ResourceDetail
+          resource={selectedResource}
+          onClose={() => setSelectedResource(null)}
+        />
       )}
     </div>
   );

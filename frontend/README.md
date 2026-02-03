@@ -2,40 +2,7 @@
 
 React + TypeScript + Vite frontend for the Learning Path Advisor application. Browse learning resources, get AI-powered recommendations, and view resource details.
 
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Frontend Architecture                         │
-├─────────────────────────────────────────────────────────────────┤
-│  App.tsx                                                          │
-│  ├── AIRecommendation (page)     → AI learning path form         │
-│  └── ResourceTable (page)        → Resource catalogue + filters    │
-├─────────────────────────────────────────────────────────────────┤
-│  Pages                                                            │
-│  ├── AIRecommendation.tsx  → Goal input, recommendations display │
-│  └── ResourceTable.tsx     → Search, filters, table, pagination   │
-├─────────────────────────────────────────────────────────────────┤
-│  Components                                                       │
-│  ├── ErrorAlert.tsx        → Reusable error banner                │
-│  └── ResourceDetail.tsx    → Resource detail modal                │
-├─────────────────────────────────────────────────────────────────┤
-│  Hooks                                                           │
-│  ├── useDebounce.ts        → Debounce search/filter inputs       │
-│  └── useThrottle.ts        → Throttle button clicks              │
-├─────────────────────────────────────────────────────────────────┤
-│  Services                                                        │
-│  └── api.ts                → API client (fetchResources, etc.)    │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### Key Features
-
-- **Resource Catalogue**: Search, filter by type/difficulty/tag, paginate
-- **AI Recommendations**: Enter a learning goal, get personalized resource suggestions
-- **Resource Details**: View full resource info in a modal
-- **Error Handling**: API errors displayed with dismissible alerts
-- **Performance**: Debounced search, throttled button clicks
+---
 
 ## How to Run the Frontend
 
@@ -43,7 +10,7 @@ React + TypeScript + Vite frontend for the Learning Path Advisor application. Br
 
 - Node.js (v18 or higher recommended)
 - npm
-- **Backend must be running** at `http://localhost:5000`
+- **Backend must be running** at `http://localhost:5000` (see `../backend/README.md`)
 
 ### Installation
 
@@ -105,6 +72,6 @@ npm run preview
 
 5. **Limited validation**: Form validation is minimal. The backend may reject invalid requests with error responses.
 
-6. **CORS**: If the backend does not enable CORS for the frontend origin, requests may fail in the browser. Ensure the backend allows requests from `http://localhost:5173` (or your frontend URL).
+6. **CORS**: If the backend does not enable CORS for the frontend origin, requests may fail in the browser.
 
 7. **Browser support**: Targets modern browsers that support ES modules and the features used by React 19 and Vite.
